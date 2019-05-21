@@ -17,7 +17,7 @@ def desc():
     return read('README.rst')
 
 setup(
-    name='Flask-AppBuilder',
+    name='Flask-AppBuilder-skyscanner',
     version=version.VERSION_STRING,
     url='https://github.com/dpgaspar/flask-appbuilder/',
     license='BSD',
