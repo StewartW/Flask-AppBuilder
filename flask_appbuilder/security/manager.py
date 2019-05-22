@@ -265,7 +265,7 @@ class BaseSecurityManager(AbstractSecurityManager):
     @property
     def auth_ldap_search(self):
         return self.appbuilder.get_app.config['AUTH_LDAP_SEARCH']
-    
+
     @property
     def auth_ldap_search_filter(self):
         return self.appbuilder.get_app.config['AUTH_LDAP_SEARCH_FILTER']
@@ -409,10 +409,15 @@ class BaseSecurityManager(AbstractSecurityManager):
         if provider == 'github' or provider == 'githublocal':
             me = self.appbuilder.sm.oauth_remotes[provider].get('user')
             log.debug("User info from Github: {0}".format(me.data))
+            email = me.data.get('email', '')
+            if not email:
+                emails = self.appbuilder.sm.oauth_remotes[provider].get('user/emails')
+                email = emails.data[0].get('email')
+
             name = me.data.get('name', 'no name').split(' ')
             return {
                 'username': "github_" + me.data.get('login'),
-                'email': me.data.get('email', ''),
+                'email': email,
                 'first_name': name[0],
                 'last_name': name[-1]
             }
@@ -851,7 +856,7 @@ class BaseSecurityManager(AbstractSecurityManager):
                     role=self.find_role(self.auth_user_registration_role)
                 )
             if not user:
-                log.error("Error creating a new OAuth user %s" % userinfo['username'])
+                log.error(f"Error creating a new OAuth user {userinfo['username']. {userinfo}}")
                 return None
         self.update_user_auth_stat(user)
         return user
