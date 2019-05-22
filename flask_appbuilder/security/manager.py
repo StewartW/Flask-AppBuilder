@@ -856,7 +856,7 @@ class BaseSecurityManager(AbstractSecurityManager):
                     role=self.find_role(self.auth_user_registration_role)
                 )
             if not user:
-                log.error(f"Error creating a new OAuth user {userinfo['username']. {userinfo}}")
+                log.error(f"Error creating a new OAuth user {userinfo['username']}. {userinfo}")
                 return None
         self.update_user_auth_stat(user)
         return user
